@@ -84,4 +84,50 @@ describe("Validando Pedido", () => {
     expect(18.50).toEqual(dataPedido.getValorTotal());
     expect(0).toEqual(dataPedido.getStatus());
 })
+test('Deve criar um pedido com todos os parâmetros válidos', () => {
+  const cliente = new Cliente('Fulano', 'fulano@example.com', '31759487740');
+  const pedido = new Pedido(cliente, statusPedido.CRIADO, 1, 100);
+  expect(pedido.cliente).toBe(cliente);
+  expect(pedido.getStatus()).toBe(statusPedido.CRIADO);
+  expect(pedido.getValorTotal()).toBe(100);
+});
+
+test('Deve lançar um erro ao tentar criar um pedido sem um cliente', () => {
+  expect(() => new Pedido(null)).toThrow(Error);
+});
+
+test('Deve adicionar um produto ao pedido', () => {
+  const cliente = new Cliente('Fulano', 'fulano@example.com', '31759487740');
+  const produto = new Produto('Produto 1', 50, new Categoria('Categoria 1'));
+  const pedido = new Pedido(cliente);
+  pedido.adicionarProduto(produto);
+  expect(pedido.getProdutos()).toContain(produto);
+  expect(pedido.getValorTotal()).toBe(50);
+});
+
+test('Deve verificar o status inicial do pedido', () => {
+  const cliente = new Cliente('Fulano', 'fulano@example.com', '31759487740');
+  const pedido = new Pedido(cliente);
+  expect(pedido.getStatus()).toBe(statusPedido.CRIADO);
+});
+
+test('Deve verificar o valor total do pedido após adicionar produtos', () => {
+  const cliente = new Cliente('Fulano', 'fulano@example.com', '31759487740');
+  const produto1 = new Produto('Produto 1', 50, new Categoria('Categoria 1'));
+  const produto2 = new Produto('Produto 2', 75, new Categoria('Categoria 1'));
+  const pedido = new Pedido(cliente);
+  pedido.adicionarProduto(produto1);
+  pedido.adicionarProduto(produto2);
+  expect(pedido.getValorTotal()).toBe(125);
+});
+
+test('Deve obter a lista de produtos do pedido', () => {
+  const cliente = new Cliente('Fulano', 'fulano@example.com', '31759487740');
+  const produto1 = new Produto('Produto 1', 50, new Categoria('Categoria 1'));
+  const produto2 = new Produto('Produto 2', 75, new Categoria('Categoria 1'));
+  const pedido = new Pedido(cliente);
+  pedido.adicionarProduto(produto1);
+  pedido.adicionarProduto(produto2);
+  expect(pedido.getProdutos()).toEqual([produto1, produto2]);
+});
 });

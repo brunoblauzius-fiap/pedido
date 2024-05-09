@@ -18,6 +18,48 @@ describe('CategoriaRepository', () => {
     expect(categorias[0].name).toEqual('Categoria 1');
     expect(categorias[1].name).toEqual('Categoria 2');
   });
+  test('Quando params.name é undefined, deve retornar todos os registros', async () => {
+    const categoriaRepository = new CategoriaRepository(MockDataBase);
+    const result = await categoriaRepository.getAll({ name: undefined });
+    expect(result).toHaveLength(3); // Supondo que o mockDataBase retorne 3 registros
+  });
+
+  test('Quando params.name é uma string vazia, deve retornar todos os registros', async () => {
+    const categoriaRepository = new CategoriaRepository(MockDataBase);
+    const result = await categoriaRepository.getAll({ name: '' });
+    expect(result).toHaveLength(3); // Supondo que o mockDataBase retorne 3 registros
+  });
+
+  test('Quando params.name é uma string não vazia, deve retornar os registros correspondentes', async () => {
+    const categoriaRepository = new CategoriaRepository(MockDataBase);
+    const result = await categoriaRepository.getAll({ name: 'Categoria 1' });
+    expect(result).toHaveLength(1); // Supondo que apenas um registro corresponde ao nome 'Categoria 1'
+    expect(result[0].name).toEqual('Categoria 1');
+  });
+
+  test('Quando o resultado da consulta é null, deve retornar null', async () => {
+    MockDataBase.find.mockResolvedValue(null); // Mock para retornar null
+    const categoriaRepository = new CategoriaRepository(MockDataBase);
+    const result = await categoriaRepository.getAll({ name: 'Categoria 1' });
+    expect(result).toBeNull();
+  });
+
+  test('Quando o resultado da consulta é um array vazio, deve retornar null', async () => {
+    MockDataBase.find.mockResolvedValue([]); // Mock para retornar um array vazio
+    const categoriaRepository = new CategoriaRepository(MockDataBase);
+    const result = await categoriaRepository.getAll({ name: 'Categoria 1' });
+    expect(result).toBeNull();
+  });
+
+  test('Quando o resultado da consulta contém elementos, deve retornar os registros correspondentes', async () => {
+    const mockResult = [{ id: 1, name: 'Categoria 1' }, { id: 2, name: 'Categoria 2' }];
+    MockDataBase.find.mockResolvedValue(mockResult); // Mock para retornar registros
+    const categoriaRepository = new CategoriaRepository(MockDataBase);
+    const result = await categoriaRepository.getAll({ name: 'Categoria' });
+    expect(result).toHaveLength(2);
+    expect(result[0].name).toEqual('Categoria 1');
+    expect(result[1].name).toEqual('Categoria 2');
+  });
 
   test('store categoria', async () => {
     // Crie uma instância do CategoriaRepository com o mock do banco de dados

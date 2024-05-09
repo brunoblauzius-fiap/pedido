@@ -4,6 +4,7 @@ import { test } from '@jest/globals';
 
 import Categoria from '../../../entity/categoria';
 import Produto from '../../../entity/produto';
+import BadRequestError from '../../../application/exception/BadRequestError';
 
 describe("Validando Entity Produto", () => {
     test("Instanciar Produto com minimo de parametros", () => {
@@ -43,4 +44,26 @@ describe("Validando Entity Produto", () => {
             );
         }).toThrow("O nome da categoria é obrigatório.");
     });
+
+    test('Deve criar um produto com todos os parâmetros válidos', () => {
+        const categoria = new Categoria('Categoria 1');
+        const produto = new Produto('Produto 1', 50, categoria);
+        expect(produto.title).toBe('Produto 1');
+        expect(produto.value).toBe(50);
+        expect(produto.categoria).toBe(categoria);
+      });
+    
+      test('Deve lançar um erro ao tentar criar um produto sem um título', () => {
+        const categoria = new Categoria('Categoria 1');
+        expect(() => new Produto('', 50, categoria)).toThrow(BadRequestError);
+      });
+    
+      test('Deve lançar um erro ao tentar criar um produto sem um valor', () => {
+        const categoria = new Categoria('Categoria 1');
+        expect(() => new Produto('Produto 1', null, categoria)).toThrow(BadRequestError);
+      });
+    
+      test('Deve lançar um erro ao tentar criar um produto sem uma categoria', () => {
+        expect(() => new Produto('Produto 1', 50, null)).toThrow(BadRequestError);
+      });
 });
