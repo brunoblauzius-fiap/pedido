@@ -26,12 +26,12 @@ export class ClienteCasoDeUso{
             throw new BadRequestError("Cliente não encontrado.");
         }
 
-        if (dataCliente['cpf_cnpj'] != cliente.cpf_cnpj) {
-            let cpf_cnpj = await clienteRepositorio.findByCPF(cliente.cpf_cnpj);
-            if (cpf_cnpj) {
-                throw new BadRequestError("CPF ou CNPJ já cadastrado.");
-            }
-        }
+        // if (dataCliente['cpf_cnpj'] == cliente.cpf_cnpj) {
+        //     let cpf_cnpj = await clienteRepositorio.findByCPF(cliente.cpf_cnpj);
+        //     if (cpf_cnpj) {
+        //         throw new BadRequestError("CPF ou CNPJ já cadastrado.");
+        //     }
+        // }
 
         if (dataCliente['email'].toLocaleLowerCase() != cliente.email.toLocaleLowerCase()) {
             let email = await clienteRepositorio.findByEmail(cliente.email);
