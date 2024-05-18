@@ -49,7 +49,7 @@ class ClienteRepository implements ICliente
         return row;
     }
 
-    public update = async (cliente: Cliente, id: BigInteger) => {
+    public update = async (cliente: Cliente, id: number) => {
         this.db.update(
             this.nomeTabela,
             [{ campo: "name", valor: cliente.name }, 
@@ -76,7 +76,7 @@ class ClienteRepository implements ICliente
     public delete = async (id: BigInteger) => {
         return await this.db.delete(
             this.nomeTabela,
-            [{ campo: "id", valor: id }]);;
+            [{ campo: "id", valor: id }]);
     }
     
     public findById = async (id: BigInteger) : Promise<Cliente> => {
