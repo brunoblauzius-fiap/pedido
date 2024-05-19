@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --config=jest.config.ts",
+    "test": "jest",
     "test:bdd": "jest --config=jest-cucumber.config.ts",
     "compile": "tsc -w",
     "start": "node ./src/program.js"
