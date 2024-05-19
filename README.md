@@ -1,3 +1,23 @@
+### 4º Módulo
+
+Geral: 
+https://www.loom.com/share/aba3643074444bf7b4b0147726e2eb0c?sid=a9b550d7-6806-44ae-9117-92a4fae718f2
+
+Pedido:
+https://www.loom.com/share/58d4be71ba704b299d8a3293e614dcdb?sid=98b7b6af-544c-420b-be4e-55166dc5fdf6
+
+Entrega:
+https://www.loom.com/share/ebbd39f475a04aabbde6d6b66254ea55?sid=1ba0c1a5-cb58-4663-91a5-8f0f5aa13bdd
+
+Pagamentos:
+https://www.loom.com/share/d979b1af2bd84a439b6bb17cc71848a3?sid=34982d52-c60e-49bf-bd7b-cf020bd38204
+
+Melhorias Deploy:
+https://www.loom.com/share/9d819d2af48840908072554212822180?sid=5f3b52a2-faeb-4819-a6a6-7e7d3cbf39f5
+
+
+
+
 ## Repositórios
 
 https://github.com/brunoblauzius-fiap/pedido
