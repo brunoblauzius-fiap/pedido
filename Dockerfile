@@ -8,11 +8,12 @@ COPY tsconfig.json ./
 #RUN npm install typescript
 RUN npm install
 RUN npm install typescript -g
+RUN npm i @babel/preset-typescript
 
 COPY . /usr/src/apps
 
 RUN tsc
 
-EXPOSE 3001
+EXPOSE 3000
 
 CMD ["npm", "start"]

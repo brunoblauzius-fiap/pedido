@@ -12,7 +12,15 @@ export default {
   verbose: true,
   // detectOpenHandles: true,
   collectCoverage: true,
-  forceExit: true,
+  coverageThreshold: {
+    "global": {
+      "branches": 80,
+      "functions": 80,
+      "lines": 80,
+      "statements": 80
+    }
+  },
+  //forceExit: true,
   // transformIgnorePatterns: ['./node_modules'],
   setupFiles: ['dotenv/config'],
 };
