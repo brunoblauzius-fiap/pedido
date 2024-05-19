@@ -24,6 +24,7 @@ jobs:
 
     - 
       name: Configure AWS credentials
+      if: ${{github.ref_name == 'main'}}
       uses: aws-actions/configure-aws-credentials@v3
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -31,10 +32,12 @@ jobs:
         aws-region:  ${{ vars.AWS_REGION }}
     - 
       name: Login to Amazon ECR
+      if: ${{github.ref_name == 'main'}}
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
     -
       name: Build Docker Image
+      if: ${{github.ref_name == 'main'}}
       uses: docker/build-push-action@v5
       with:
         context: .
@@ -42,6 +45,7 @@ jobs:
         tags: ${{ steps.login-ecr.outputs.registry }}/pedido:${{ github.sha }}
     -
       name: Push to ECR image
+      if: ${{github.ref_name == 'main'}}
       uses: docker/build-push-action@v5
       with:
         context: .

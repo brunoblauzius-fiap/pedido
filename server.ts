@@ -35,7 +35,8 @@ export default class Server{
 
         this.app.route('/').get((req, res) => {
             res.json({
-                'version' : '1.1.6',
+                'version' : '1.2.0',
+                "app" : "APP Pedidos",
                 'date' : '2024-03-18' 
             });
         });
