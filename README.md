@@ -17,6 +17,7 @@ Usamos comunicação Direta, entre serviços implementado na pasta external/serv
 ![image](https://github.com/brunoblauzius-fiap/pedido/assets/8801500/c5746b71-ff90-4d7d-8a7d-a7d88d792af0)
 
 ### Entrega
+![image](https://github.com/brunoblauzius-fiap/pedido/assets/8801500/74c70a72-7b6e-43f0-8fa7-5b9e4287df97)
 
 
 
