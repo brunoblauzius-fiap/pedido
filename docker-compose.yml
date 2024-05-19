@@ -9,7 +9,7 @@ services:
       - ".:/app"
       - "/node_modules"
     ports:
-      - 3001:3001
+      - 3001:3000
     environment:
       MONGO_PASS: service-pedido
       MONGO_PORT: 27017
@@ -20,27 +20,10 @@ services:
       MARIADB_PASS: ${MARIADB_PASS}
       MARIADB_DATABASE: ${MARIADB_DATABASE}
       MARIADB_PORT: ${MARIADB_PORT}
-      MP_URL: ${MP_URL}
-      MP_CLIENT_ID: ${MP_CLIENT_ID}
-      MP_CLIENT_SECRET: ${MP_CLIENT_SECRET}
-      MP_NOTIFICATION_URL: ${MP_NOTIFICATION_URL}
     depends_on:
-      # - mongo
-      - maria-db
+      - maria-db-pedido
 
-  # mongo:
-  #   image: mongo
-  #   ports:
-  #     - "27020:27017"
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: root
-  #     MONGO_INITDB_ROOT_PASSWORD: projeto-pedido
-  #   volumes:
-  #     - mongo-data:/data/db
-  #   logging:
-  #     driver: none
-
-  maria-db:
+  maria-db-pedido:
     image: mariadb:latest
     restart: unless-stopped
     volumes:
@@ -51,7 +34,7 @@ services:
       MARIADB_PASSWORD: ${MARIADB_PASS}
       MARIADB_ROOT_PASSWORD: ${MARIADB_PASS}
     ports:
-      - 3308:3306
+      - 3309:3306
 
 volumes:
   # mongo-data:

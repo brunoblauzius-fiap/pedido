@@ -5,13 +5,22 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'], // Extensões de arquivos a serem consideradas
   transform: {
     '^.+\\.tsx?$': 'ts-jest', // Transforma arquivos TypeScript
+    '^.+\\.jsx?$': 'babel-jest', // Adicione esta linha para suportar módulos ES6
   },
   
   testTimeout: 120000,
   verbose: true,
   // detectOpenHandles: true,
   collectCoverage: true,
-  forceExit: true,
-  transformIgnorePatterns: ['./node_modules'],
+  coverageThreshold: {
+    "global": {
+      "branches": 80,
+      "functions": 80,
+      "lines": 80,
+      "statements": 80
+    }
+  },
+  //forceExit: true,
+  // transformIgnorePatterns: ['./node_modules'],
   setupFiles: ['dotenv/config'],
 };
