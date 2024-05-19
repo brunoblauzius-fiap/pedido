@@ -5,7 +5,6 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'], // Extensões de arquivos a serem consideradas
   transform: {
     '^.+\\.tsx?$': 'ts-jest', // Transforma arquivos TypeScript
-    '^.+\\.jsx?$': 'babel-jest', // Adicione esta linha para suportar módulos ES6
   },
   
   testTimeout: 120000,
