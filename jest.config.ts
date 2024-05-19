@@ -12,6 +12,6 @@ export default {
   // detectOpenHandles: true,
   collectCoverage: true,
   forceExit: true,
-  // transformIgnorePatterns: ['./node_modules'],
+  transformIgnorePatterns: ['./node_modules'],
   setupFiles: ['dotenv/config'],
 };
