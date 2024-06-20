@@ -145,9 +145,17 @@ export class MysqlDataBase implements IDataBase {
     };
 
     async getMultipleIdsProduto(ids: string[]){
-        const query = `SELECT * FROM produto WHERE id IN (${ids})`
-        return await this.db.conn().query(query)
-
+      // Construção da consulta parametrizada
+      const query = 'SELECT * FROM produto WHERE id IN (?)'; // Usando '?' como marcador de posição para o array de ids
+  
+      try {
+          const result = await this.db.conn().query(query, [ids]);
+          return result;
+      } catch (error) {
+          // Tratamento de erro
+          console.error('Erro na consulta SQL:', error);
+          throw error; // Lança o erro para que seja tratado em um nível superior
+      }
     }
 }
 
