@@ -6,7 +6,7 @@ const aws_sqs = new AWSSQS();
 
 function startReceivingMessages() {
     setInterval(async () => {
-        aws_sqs.receive(process.env.AWS_SQS_PEDIDO_ENTREGA);
+        await aws_sqs.receive(process.env.AWS_SQS_PEDIDO_ENTREGA);
     }, 1000);
 }
 

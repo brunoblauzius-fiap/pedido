@@ -42,8 +42,6 @@ class AWSSQS
             QueueUrl: `${this.queueUrl}${queue}`,
             MaxNumberOfMessages: 1, // Número máximo de mensagens a serem recebidas
         };
-      
-
         try {
             const response = await this.sqsClient.send(
                 new ReceiveMessageCommand(params)
@@ -52,16 +50,15 @@ class AWSSQS
             
             if (messages) {
                 for (const message of messages) {
-                    console.log("Mensagem recebida:", message.Body);
-            
-                    // Processar a mensagem (aqui você pode adicionar sua lógica de processamento)
-            
+                    console.log("Messagem recebida:" , message.Body );          
                     // Excluir a mensagem da fila após o processamento
                     await this.deleteMessage(message.ReceiptHandle!, queue);
                 }
             } 
         } catch (err) {
             console.error("Erro ao receber mensagens:", err);
+        } finally {
+            return this;
         }
     }
 
