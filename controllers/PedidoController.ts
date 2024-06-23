@@ -51,7 +51,8 @@ class PedidoController {
                 this.clienteRepository,
                 this.produtoRepository,
                 this.repository
-            )
+            );
+
             response.status(HttpStatus.OK).json(ResponseAPI.data(orderResultId));
         } catch(err) {
             ResponseErrors.err(response, err);
