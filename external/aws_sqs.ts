@@ -8,14 +8,15 @@ class AWSSQS
     queueUrl = process.env.AWS_SQS_URL;
 
     constructor() {
-        this.sqsClient = new SQSClient({
-            region: "us-east-1",
-            endpoint: "http://localstack:4566",
-            credentials: {
+        let configs = {region: "us-east-1",};
+        if (process.env.DEBUG=='true') {
+            configs['endpoint'] = "http://localstack:4566";
+            configs['credentials'] =  {
                 accessKeyId: process.env.AWS_ACCESS_KEY_ID, // A chave de acesso não importa para o LocalStack
                 secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // A chave secreta não importa para o LocalStack
-            },
-        });
+            }
+        } 
+        this.sqsClient = new SQSClient(configs);
     }
 
     async send(message:string, queue : string) {
@@ -46,19 +47,9 @@ class AWSSQS
             const response = await this.sqsClient.send(
                 new ReceiveMessageCommand(params)
             );
-            const messages = response.Messages;
-            
-            if (messages) {
-                for (const message of messages) {
-                    console.log("Messagem recebida:" , message.Body );          
-                    // Excluir a mensagem da fila após o processamento
-                    await this.deleteMessage(message.ReceiptHandle!, queue);
-                }
-            } 
+            return response.Messages;
         } catch (err) {
             console.error("Erro ao receber mensagens:", err);
-        } finally {
-            return this;
         }
     }
 
@@ -75,7 +66,7 @@ class AWSSQS
         } catch (error) {
           console.error("Erro ao excluir a mensagem:", error);
         }
-      }
+    }
 }
 
 

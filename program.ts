@@ -1,18 +1,18 @@
 import Server  from "./server";
 import {MysqlDataBase} from "./external/MysqlDataBase";
 import AWSSQS from "./external/aws_sqs";
+import QueueSubscribeRepository from "./gateways/QueueSubscribeRepository";
 
-const aws_sqs = new AWSSQS();
+const queueRepository = new QueueSubscribeRepository(new AWSSQS());
 
 function startReceivingMessages() {
     setInterval(async () => {
-        await aws_sqs.receive(process.env.AWS_SQS_PEDIDO_ENTREGA);
+        await queueRepository.pedidoEntrega();
     }, 1000);
 }
 
 let  port = process.env.PORT || 3000;
-const _db = new MysqlDataBase();
-const _server = new Server(_db);
+const _server = new Server(new MysqlDataBase());
 
 _server.app.listen(port, () => {
     console.log('Server exec: PORTA -> ' + port);
