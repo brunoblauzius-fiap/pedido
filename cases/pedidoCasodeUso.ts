@@ -45,9 +45,25 @@ export class PedidoCasoDeUso{
     ) => {
         // validar se o status do predido já esta em preparação
         if (pedido.getStatus() == statusPedido.EM_PREPARACAO) {
-            pedido.setStatus(statusPedido.PRONTO);
+            pedido.setStatus(statusPedido.FINALIZADO);
             const response = await pedidoRepositorio.update(pedido, pedido.id);
             await awsSQS.send(JSON.stringify(response), process.env.AWS_SQS_PEDIDO_ENTREGA);
+            return response;
+        }
+        
+        return null;
+    }
+
+    static pedidoCancelado = async (
+        pedido: Pedido, 
+        pedidoRepositorio: IPedido,
+        awsSQS : AWSSQS
+    ) => {
+        // validar se o status do predido já esta em preparação
+        if (pedido.getStatus() != statusPedido.FINALIZADO) {
+            pedido.setStatus(statusPedido.CANCELADO);
+            const response = await pedidoRepositorio.update(pedido, pedido.id);
+            await awsSQS.send(JSON.stringify({îdPedido : pedido.id}), process.env.AWS_SQS_PEDIDO_ENTREGA_CANCELAR);
             return response;
         }
         return null;
@@ -92,7 +108,7 @@ export class PedidoCasoDeUso{
     }
 
     static async deletePedido(idPedido, PedidoRepositorio: IPedido){
-                const Pedido = await PedidoRepositorio.delete(idPedido);
+        const Pedido = await PedidoRepositorio.delete(idPedido);
         return Pedido;
     }
 

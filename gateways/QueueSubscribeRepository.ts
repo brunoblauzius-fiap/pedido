@@ -1,25 +1,76 @@
 import AWSSQS from "../external/aws_sqs";
+import { IDataBase } from "../interfaces/IDataBase";
 import { IQueue } from "../interfaces/IQueue";
+import PedidoRepository from "./PedidoRepository";
+import { PedidoCasoDeUso } from "../cases/pedidoCasodeUso";
+import Pedido from "../entity/pedido";
 
 class QueueSubscribeRepository implements IQueue {
     
     queue_name : string = process.env.AWS_SQS_PEDIDO_ENTREGA;
 
-    constructor( readonly sqsQueue: AWSSQS ) {}
+    repository : PedidoRepository;
+    pedido : Pedido;
 
-    async pedidoEntrega(): Promise<void> {
-        
-        const messages = await this.sqsQueue.receive(this.queue_name);
+    constructor( 
+        readonly sqsQueue: AWSSQS, 
+        readonly dataBase : IDataBase
+    ) {
+        this.repository = new PedidoRepository(dataBase);
+    }
+
+    async pedidoCancelado(): Promise<void> {
+        /**
+         * {idPedido : int}
+         */
+        const messages = await this.sqsQueue.receive(process.env.AWS_SQS_CANCELAR_PEDIDO);
 
         if (messages) {
             for (const message of messages) {
-                console.log("Messagem recebida:" , message.Body );          
+                console.log("Messagem recebida cancelarPedido:" , message.Body ); 
+                let idPedido = JSON.parse(message.Body).idPedido; 
                 // Excluir a mensagem da fila após o processamento
-                await this.sqsQueue.deleteMessage(message.ReceiptHandle!, this.queue_name);
+                this.pedido = await this.repository.findById(idPedido);
+                if (this.pedido != null) {
+                    PedidoCasoDeUso.pedidoCancelado(
+                        this.pedido,
+                        this.repository,
+                        this.sqsQueue
+                    );
+                    await this.sqsQueue.deleteMessage(message.ReceiptHandle, process.env.AWS_SQS_CANCELAR_PEDIDO);
+                } else {
+                    console.log(`Pedido com o ID ${idPedido} não exite.`);
+                }
             }
         } 
-        
     }
+
+    async pedidoConfirmado(): Promise<void> {
+        /**
+         * {idPedido : int}
+         */
+        const messages = await this.sqsQueue.receive(process.env.AWS_SQS_CONFIRMACAO_PAGAMENTO);
+
+        if (messages) {
+            for (const message of messages) {
+                console.log("Messagem recebida cancelarPedido:" , message.Body ); 
+                let idPedido = JSON.parse(message.Body).idPedido; 
+                // Excluir a mensagem da fila após o processamento
+                this.pedido = await this.repository.findById(idPedido);
+                if (this.pedido != null) {
+                    PedidoCasoDeUso.pedidoConcluido(
+                        this.pedido,
+                        this.repository,
+                        this.sqsQueue
+                    );
+                    await this.sqsQueue.deleteMessage(message.ReceiptHandle, process.env.AWS_SQS_CONFIRMACAO_PAGAMENTO);
+                } else {
+                    console.log(`Pedido com o ID ${idPedido} não exite.`);
+                }
+            }
+        } 
+    }
+    
 }
 
 export default QueueSubscribeRepository;

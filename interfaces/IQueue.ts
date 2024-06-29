@@ -1,4 +1,5 @@
 
 export interface IQueue {
-    pedidoEntrega();
+    pedidoCancelado();
+    pedidoConfirmado();
 }

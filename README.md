@@ -121,12 +121,13 @@ Deve ser executado esse script no banco de dados, antes de iniciar a criação d
             VALUES
             (1, 'Lanche',NOW(), NOW()),
             (2, 'Acompanhamento',NOW(), NOW()),
-            (3, 'Bebidas',NOW(), NOW());
+            (3, 'Bebidas',NOW(), NOW()),
+            (4, 'Porções',NOW(), NOW());
 
 
     -- insert de produtos
     TRUNCATE TABLE produto;
-    insert into `projeto-pedidos`.produto (id, category_id, title, description, value, created, modified)
+    insert into produto (id, category_id, title, description, value, created, modified)
     values
     (1, 1, 'X-Salada', 'X-salada tradicional', 15.00, now(), now()),
     (2, 1, 'X-Salada com Bacon', 'X-salada tradicional com Bacon', 20.00, now(), now()),
@@ -139,15 +140,15 @@ Deve ser executado esse script no banco de dados, antes de iniciar a criação d
 
 
     -- criando cliente
-    insert into `projeto-pedidos`.cliente(id, name, email, cpf_cnpj, created, modified)
+    insert into cliente(id, name, email, cpf_cnpj, created, modified)
     values (1, 'Heitor Bernardo Victor Nogueira', 'heitoBVN@gmail.com', '31759487740', now(), now());
 
     -- inserindo pedido
-    insert into `projeto-pedidos`.pedidos(id, customer_id, status, total_value, created, modified)
+    insert into pedidos(id, customer_id, status, total_value, created, modified)
     values (1, 1, 1, '42.00', now(), now());
 
     -- insert itens do pedido
-    insert into `projeto-pedidos`.pedido_produtos(id, order_id, product_id, created, modified)
+    insert into pedido_produtos(id, order_id, product_id, created, modified)
     values
     (1, 1, 3, now(), now()),
     (2, 1, 2, now(), now()),
