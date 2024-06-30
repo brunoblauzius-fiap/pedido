@@ -45,7 +45,7 @@ export class PedidoCasoDeUso{
     ) => {
         // validar se o status do predido já esta em preparação
         if (pedido.getStatus() == statusPedido.EM_PREPARACAO) {
-            pedido.setStatus(statusPedido.FINALIZADO);
+            pedido.setStatus(statusPedido.PRONTO);
             const response = await pedidoRepositorio.update(pedido, pedido.id);
             await awsSQS.send(JSON.stringify(response), process.env.AWS_SQS_PEDIDO_ENTREGA);
             return response;

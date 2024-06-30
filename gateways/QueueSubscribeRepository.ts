@@ -53,7 +53,7 @@ class QueueSubscribeRepository implements IQueue {
 
         if (messages) {
             for (const message of messages) {
-                console.log("Messagem recebida cancelarPedido:" , message.Body ); 
+                console.log("Messagem recebida pedidoConfirmado:" , message.Body ); 
                 let idPedido = JSON.parse(message.Body).idPedido; 
                 // Excluir a mensagem da fila após o processamento
                 this.pedido = await this.repository.findById(idPedido);
