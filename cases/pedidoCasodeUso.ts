@@ -37,6 +37,18 @@ export class PedidoCasoDeUso{
         return null;
     }
 
+    static pedidoFinalizado = async (
+        pedido: Pedido, 
+        pedidoRepositorio: IPedido
+    ) => {
+        // validar se o status do predido já esta em preparação
+        if (pedido.getStatus() == statusPedido.PRONTO) {
+            pedido.setStatus(statusPedido.FINALIZADO);
+            const response = await pedidoRepositorio.update(pedido, pedido.id);
+            return response;
+        }
+        return null;
+    }
 
     static pedidoConcluido = async (
         pedido: Pedido, 

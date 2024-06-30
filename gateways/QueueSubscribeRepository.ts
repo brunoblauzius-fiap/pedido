@@ -19,6 +19,31 @@ class QueueSubscribeRepository implements IQueue {
         this.repository = new PedidoRepository(dataBase);
     }
 
+    async pedidoFinalizado() : Promise<void> {
+        /**
+         * {idPedido : int}
+         */
+        const messages = await this.sqsQueue.receive(process.env.AWS_SQS_PEDIDO_FINALIZADO);
+
+        if (messages) {
+            for (const message of messages) {
+                console.log("Messagem recebida pedidoFinalizado:" , message.Body ); 
+                let idPedido = JSON.parse(message.Body).idPedido; 
+                // Excluir a mensagem da fila após o processamento
+                this.pedido = await this.repository.findById(idPedido);
+                if (this.pedido != null) {
+                    PedidoCasoDeUso.pedidoFinalizado(
+                        this.pedido,
+                        this.repository
+                    );
+                    await this.sqsQueue.deleteMessage(message.ReceiptHandle, process.env.AWS_SQS_PEDIDO_FINALIZADO);
+                } else {
+                    console.log(`Pedido com o ID ${idPedido} não exite.`);
+                }
+            }
+        } 
+    }
+
     async pedidoCancelado(): Promise<void> {
         /**
          * {idPedido : int}

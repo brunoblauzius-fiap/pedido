@@ -14,6 +14,7 @@ const queueRepository = new QueueSubscribeRepository(
 function startReceivingMessages() {
     setInterval(async () => {
         await queueRepository.pedidoCancelado();
+        await queueRepository.pedidoFinalizado();
         await queueRepository.pedidoConfirmado();
     }, 1000);
 }
