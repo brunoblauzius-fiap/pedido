@@ -11,6 +11,7 @@ export default function ClienteRoutes(dbconnection: IDataBase) {
     router.get('/cliente/:cpfcnpj/identify', clienteController.identifyByCPF);
     router.put('/cliente/:id', clienteController.update);
     router.delete('/cliente/:id', clienteController.delete);
+    router.post('/cliente/:id/desabilitar', clienteController.disable);
     return router;
 }
 

@@ -43,6 +43,18 @@ export class ClienteCasoDeUso{
         cliente = await clienteRepositorio.update(cliente, id);
         return cliente;
     }
+
+    static async desabilitarCliente(cliente: Cliente, id, clienteRepositorio: ICliente) {
+        let dataCliente = await clienteRepositorio.findById(id);
+
+        if (dataCliente == null) {
+            throw new BadRequestError("Cliente não encontrado.");
+        }
+
+        const data = await clienteRepositorio.disable(cliente, id);
+        return data;
+    }
+
     static async encontrarClientePorId(id, clienteRepositorio: ICliente){
         return await clienteRepositorio.findById(id);
     }
