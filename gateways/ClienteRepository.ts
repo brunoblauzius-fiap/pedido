@@ -61,6 +61,15 @@ class ClienteRepository implements ICliente
         return cliente;
     }
 
+    public disable = async (cliente: Cliente, id: number) => {
+        this.db.update(
+            this.nomeTabela,
+            [{ campo: "disabled", valor: true }],
+            [{ campo: "id", valor: id }]);
+        cliente.id = id;
+        return cliente;
+    }
+
     public store = async (cliente: Cliente) => {
         let data = await this.db.store(
             this.nomeTabela,
