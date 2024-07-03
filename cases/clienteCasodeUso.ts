@@ -43,7 +43,6 @@ export class ClienteCasoDeUso{
         cliente = await clienteRepositorio.update(cliente, id);
         return cliente;
     }
-
     static async encontrarClientePorId(id, clienteRepositorio: ICliente){
         return await clienteRepositorio.findById(id);
     }

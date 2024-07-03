@@ -133,7 +133,6 @@ class ClienteController{
             ResponseErrors.err(response, err);
         }
     }
-
 }
 
 export default ClienteController;
