@@ -25,7 +25,16 @@ class MysqlConnection
             cpf_cnpj VARCHAR(20) not null unique,
             created datetime null,
             modified datetime null,
-            disabled boolean default false
+        )  ENGINE=INNODB;`);
+
+        await this.connection.query(`CREATE TABLE IF NOT EXISTS cliente_desabilitar (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            nome VARCHAR(200) not null,
+            endereco VARCHAR(245) not null unique,
+            telefone VARCHAR(20) not null unique,
+            pagamento JSON,
+            created datetime null,
+            modified datetime null,
         )  ENGINE=INNODB;`);
 
         await this.connection.query(`CREATE TABLE IF NOT EXISTS categoria (

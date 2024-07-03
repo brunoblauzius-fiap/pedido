@@ -152,8 +152,8 @@ Deve ser executado esse script no banco de dados, antes de iniciar a criação d
 
 
     -- criando cliente
-    insert into `projeto-pedidos`.cliente(id, name, email, cpf_cnpj, created, modified, disabled)
-    values (1, 'Heitor Bernardo Victor Nogueira', 'heitoBVN@gmail.com', '31759487740', now(), now(), false);
+    insert into `projeto-pedidos`.cliente(id, name, email, cpf_cnpj, created, modified)
+    values (1, 'Heitor Bernardo Victor Nogueira', 'heitoBVN@gmail.com', '31759487740', now(), now());
 
     -- inserindo pedido
     insert into `projeto-pedidos`.pedidos(id, customer_id, status, total_value, created, modified)

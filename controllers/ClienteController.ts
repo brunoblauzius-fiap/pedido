@@ -134,20 +134,6 @@ class ClienteController{
         }
     }
 
-    /**
-     * 
-     * @param request 
-     * @param response 
-     */
-    public disable = async (request, response) => {
-        try {
-            const data = await ClienteCasoDeUso.desabilitarCliente(request, request.params.id, this.repository);
-            response.status(HttpStatus.OK).json(ResponseAPI.data(data));
-        } catch (err) {
-            ResponseErrors.err(response, err);
-        }
-    }
-
 }
 
 export default ClienteController;
