@@ -8,6 +8,8 @@ Por se tratar de um exemplo tecnicamente simples optamos por uitlizar o padrão 
 
 Na imagem acima retratamos como ficou a coreografia entre os módulos e como ficou os push/subscribe de cada um.
 
+### Mensageria
+Usamos o SQS AWS como ferramenta para comunicação entre as aplicações, motivo foi pelo baixo custo e por se adequar ao que era proposto.
 
 ### 4º Módulo
 
