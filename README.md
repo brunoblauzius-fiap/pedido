@@ -1,3 +1,14 @@
+## 5º Módulo
+
+#### Arquitetura
+![image](diagrama_componentes_aws.svg)
+
+### Justificativa do Padrão SAGA.
+Por se tratar de um exemplo tecnicamente simples optamos por uitlizar o padrão "COREOGRAFADO" ja que o problema não exigia um contexto sequencial para orquestração, logo decidimos pelo padrão definido. 
+
+Na imagem acima retratamos como ficou a coreografia entre os módulos e como ficou os push/subscribe de cada um.
+
+
 ### 4º Módulo
 
 Geral: 
