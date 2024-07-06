@@ -59,7 +59,7 @@ export class PedidoCasoDeUso{
         if (pedido.getStatus() == statusPedido.EM_PREPARACAO) {
             pedido.setStatus(statusPedido.PRONTO);
             const response = await pedidoRepositorio.update(pedido, pedido.id);
-            await awsSQS.send(JSON.stringify(response), process.env.AWS_SQS_PEDIDO_ENTREGA);
+            await awsSQS.send(JSON.stringify({"idPedido" : pedido.id}), process.env.AWS_SQS_PEDIDO_ENTREGA);
             return response;
         }
         
