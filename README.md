@@ -1,15 +1,32 @@
-## 5º Módulo
+### 5º Módulo
 
-#### Arquitetura
+## Arquitetura
 ![image](diagrama_componentes_aws.svg)
 
-### Justificativa do Padrão SAGA.
+## Justificativa do Padrão SAGA.
 Por se tratar de um exemplo tecnicamente simples optamos por uitlizar o padrão "COREOGRAFADO" ja que o problema não exigia um contexto sequencial para orquestração, logo decidimos pelo padrão definido. 
 
 Na imagem acima retratamos como ficou a coreografia entre os módulos e como ficou os push/subscribe de cada um.
 
-### Mensageria
+## Mensageria
 Usamos o SQS AWS como ferramenta para comunicação entre as aplicações, motivo foi pelo baixo custo e por se adequar ao que era proposto.
+
+## Relatório RPID LGPD:
+- [RPID LGPD](https://github.com/brunoblauzius-fiap/pedido/blob/main/LGPD/RIPD-Cafeteria.pdf)
+
+## OWASP
+
+Executado OWASP ZAP  antes da correção de código:
+- [OWASP Report Antes PDF](https://github.com/brunoblauzius-fiap/pedido/blob/OWASP/OWASP/ZAP%20Reporter%20Antes.pdf)
+
+Executado OWASP ZAP  depois da correção de código: 
+- [OWASP Report Depois PDF](https://github.com/brunoblauzius-fiap/pedido/blob/OWASP/OWASP/ZAP%20Reporter%20depois.pdf)
+  
+Report gerado pelo Zap Scanner:
+- [OWASP Report Download](https://github.com/brunoblauzius-fiap/pedido/tree/OWASP/OWASP)
+
+
+
 
 ### 4º Módulo
 

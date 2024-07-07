@@ -10,6 +10,7 @@ services:
       - "/node_modules"
     ports:
       - 3001:3000
+      - 3001:3000
     environment:
       DEBUG : ${DEBUG}
       AWS_ACCESS_KEY_ID : ${AWS_ACCESS_KEY_ID}
