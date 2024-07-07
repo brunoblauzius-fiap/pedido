@@ -15,6 +15,12 @@ Usamos o SQS AWS como ferramenta para comunicação entre as aplicações, motiv
 ## Relatório RPID LGPD:
 - [RPID LGPD](https://github.com/brunoblauzius-fiap/pedido/blob/main/LGPD/RIPD-Cafeteria.pdf)
 
+Rota para solicitação de exclusão de dados da plataforma:
+
+>Adicionado um metodo POST  - /cliente/desabilitar.
+
+[Rota adicionada](https://github.com/brunoblauzius-fiap/pedido/blob/e253ee75b1b2c773edbd59f6a2708d764e254d09/application/api/routes/clienteDesabilitarRoutes.ts)
+
 ## OWASP
 
 Executado OWASP ZAP  antes da correção de código:
