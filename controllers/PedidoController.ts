@@ -69,7 +69,7 @@ class PedidoController {
             
             let order = await PedidoCasoDeUso.encontrarPedidoPorId(request.params.id, this.repository);
 
-            //console.log(` aqui ${order}`);
+            console.log(request.body);
             order.setStatus(request.body.status);
             let data = await PedidoCasoDeUso.atualizarPedido(order, request.params.id,this.repository);
             response.status(HttpStatus.OK).json(ResponseAPI.data(data));
