@@ -1,4 +1,10 @@
 ### 5º Módulo
+
+## Relatório RPID LGPD:
+- [RPID LGPD](https://github.com/brunoblauzius-fiap/pedido/blob/main/LGPD/RIPD-Cafeteria.pdf)
+
+## OWASP
+
 Executado OWASP ZAP  antes da correção de código:
 - [OWASP Report Antes PDF](https://github.com/brunoblauzius-fiap/pedido/blob/OWASP/OWASP/ZAP%20Reporter%20Antes.pdf)
 
