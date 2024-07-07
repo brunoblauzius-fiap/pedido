@@ -6,7 +6,6 @@ FIAP
 
 ##CIANDO UMA FILA FIFO pedidos pagamentos
 awslocal sqs create-queue --queue-name pedidos-pagamentos.fifo --attributes FifoQueue=true
-awslocal sqs create-queue --queue-name pedidos-pagamentos-dlq 
 
 awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedidos-pagamentos.fifo
 
@@ -14,37 +13,34 @@ awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localsta
 awslocal sqs set-queue-attributes \
 --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedidos-pagamentos.fifo \
 --attributes '{
-    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-pagamentos-dlq\",\"maxReceiveCount\":\"2\"}"
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
 }'
 
 ##CIANDO UMA FILA FIFO confirmação de pagamentos
 awslocal sqs create-queue --queue-name confirmacao-pagamento.fifo --attributes FifoQueue=true
-awslocal sqs create-queue --queue-name confirmacao-pagamento-dlq 
 
 ## LINKANDO as Filas
 awslocal sqs set-queue-attributes \
 --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/confirmacao-pagamento.fifo \
 --attributes '{
-    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:confirmacao-pagamento-dlq\",\"maxReceiveCount\":\"2\"}"
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
 }'
 
 
 
 ##CIANDO UMA FILA FIFO cancelar de pedido
 awslocal sqs create-queue --queue-name cancelar-pedido.fifo --attributes FifoQueue=true
-awslocal sqs create-queue --queue-name cancelar-pedido-dlq 
 
 ## LINKANDO as Filas
 awslocal sqs set-queue-attributes \
 --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/cancelar-pedido.fifo \
 --attributes '{
-    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:cancelar-pedido-dlq\",\"maxReceiveCount\":\"2\"}"
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
 }'
 
 
 ##CIANDO UMA FILA FIFO pedido entregar
 awslocal sqs create-queue --queue-name pedido-entrega.fifo --attributes FifoQueue=true
-awslocal sqs create-queue --queue-name pedido-entrega-dlq 
 
 awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedido-entrega.fifo
 
@@ -52,14 +48,13 @@ awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localsta
 awslocal sqs set-queue-attributes \
 --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedido-entrega.fifo \
 --attributes '{
-    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedido-entrega-dlq\",\"maxReceiveCount\":\"2\"}"
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
 }'
 
 
 
 ##CIANDO UMA FILA FIFO cancelar entrega
 awslocal sqs create-queue --queue-name pedido-entrega-cancelar.fifo --attributes FifoQueue=true
-awslocal sqs create-queue --queue-name pedido-entrega-dlq 
 
 awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedido-entrega-cancelar.fifo
 
@@ -67,13 +62,13 @@ awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localsta
 awslocal sqs set-queue-attributes \
 --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedido-entrega-cancelar.fifo \
 --attributes '{
-    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedido-entrega-dlq\",\"maxReceiveCount\":\"2\"}"
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
 }'
 
 
 ##CIANDO UMA FILA FIFO pedido finalizado
 awslocal sqs create-queue --queue-name pedidos-finalizado.fifo --attributes FifoQueue=true
-awslocal sqs create-queue --queue-name pedidos-finalizado-dlq 
+awslocal sqs create-queue --queue-name pedidos-dlq 
 
 awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedidos-finalizado.fifo
 
@@ -81,5 +76,5 @@ awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localsta
 awslocal sqs set-queue-attributes \
 --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedidos-finalizado.fifo \
 --attributes '{
-    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-finalizado-dlq\",\"maxReceiveCount\":\"2\"}"
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
 }'

@@ -24,7 +24,7 @@ class MysqlConnection
             email VARCHAR(245) not null unique,
             cpf_cnpj VARCHAR(20) not null unique,
             created datetime null,
-            modified datetime null,
+            modified datetime null
         )  ENGINE=INNODB;`);
 
         await this.connection.query(`CREATE TABLE IF NOT EXISTS cliente_desabilitar (
@@ -34,7 +34,7 @@ class MysqlConnection
             telefone VARCHAR(20) not null unique,
             pagamento JSON,
             created datetime null,
-            modified datetime null,
+            modified datetime null
         )  ENGINE=INNODB;`);
 
         await this.connection.query(`CREATE TABLE IF NOT EXISTS categoria (
