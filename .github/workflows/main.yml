@@ -59,9 +59,11 @@ jobs:
     needs: Build-and-Test
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: "Construir imagem Docker"
-      run: docker-compose up -d
+      run: |
+        docker network create microservice-fiap
+        docker-compose up -d
       env:
         MP_URL: ${{ vars.MP_URL }}
         MP_CLIENT_SECRET: ${{ secrets.MP_CLIENT_SECRET }}
