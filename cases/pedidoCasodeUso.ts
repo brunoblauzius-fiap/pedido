@@ -5,6 +5,7 @@ import Produto from '../entity/produto';
 import IClienteRepository from '../interfaces/ICliente';
 import IPedido from '../interfaces/IPedido';
 import IProduto from '../interfaces/IProduto';
+import AWSSQS from '../external/aws_sqs';
 
 export class PedidoCasoDeUso{
 
@@ -24,10 +25,62 @@ export class PedidoCasoDeUso{
         return await pedidoRepositorio.findById(idPedido);
     }
 
-    static pedidoEmPreparacao = async (pedido: Pedido, pedidoRepositorio: IPedido) => {
-        pedido.setStatus(statusPedido.EM_PREPARACAO);
-        return await pedidoRepositorio.update(pedido, pedido.id);
+    static pedidoEmPreparacao = async (
+        pedido: Pedido, 
+        pedidoRepositorio: IPedido
+    ) => {
+        // validar se o status do predido já esta em preparação
+        if (pedido.getStatus() == statusPedido.CRIADO || pedido.getStatus() == statusPedido.RECEBIDO) {
+            pedido.setStatus(statusPedido.EM_PREPARACAO);
+            return await pedidoRepositorio.update(pedido, pedido.id);
+        }
+        return null;
     }
+
+    static pedidoFinalizado = async (
+        pedido: Pedido, 
+        pedidoRepositorio: IPedido
+    ) => {
+        // validar se o status do predido já esta em preparação
+        if (pedido.getStatus() == statusPedido.PRONTO) {
+            pedido.setStatus(statusPedido.FINALIZADO);
+            const response = await pedidoRepositorio.update(pedido, pedido.id);
+            return response;
+        }
+        return null;
+    }
+
+    static pedidoConcluido = async (
+        pedido: Pedido, 
+        pedidoRepositorio: IPedido,
+        awsSQS : AWSSQS
+    ) => {
+        // validar se o status do predido já esta em preparação
+        if (pedido.getStatus() == statusPedido.EM_PREPARACAO) {
+            pedido.setStatus(statusPedido.PRONTO);
+            const response = await pedidoRepositorio.update(pedido, pedido.id);
+            await awsSQS.send(JSON.stringify({"idPedido" : pedido.id}), process.env.AWS_SQS_PEDIDO_ENTREGA);
+            return response;
+        }
+        
+        return null;
+    }
+
+    static pedidoCancelado = async (
+        pedido: Pedido, 
+        pedidoRepositorio: IPedido,
+        awsSQS : AWSSQS
+    ) => {
+        // validar se o status do predido já esta em preparação
+        if (pedido.getStatus() != statusPedido.FINALIZADO) {
+            pedido.setStatus(statusPedido.CANCELADO);
+            const response = await pedidoRepositorio.update(pedido, pedido.id);
+            await awsSQS.send(JSON.stringify({îdPedido : pedido.id}), process.env.AWS_SQS_PEDIDO_ENTREGA_CANCELAR);
+            return response;
+        }
+        return null;
+    }
+
 
     static adicionarProdutoPedido = async(request, clienteRepositorio: IClienteRepository,produtoRepositorio: IProduto, pedidoRepositorio: IPedido) => {
         try {
@@ -67,7 +120,7 @@ export class PedidoCasoDeUso{
     }
 
     static async deletePedido(idPedido, PedidoRepositorio: IPedido){
-                const Pedido = await PedidoRepositorio.delete(idPedido);
+        const Pedido = await PedidoRepositorio.delete(idPedido);
         return Pedido;
     }
 

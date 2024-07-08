@@ -11,6 +11,15 @@ services:
     ports:
       - 3001:3000
     environment:
+      DEBUG : ${DEBUG}
+      AWS_ACCESS_KEY_ID : ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_SQS_URL : ${AWS_SQS_URL}
+      AWS_SQS_PEDIDO_ENTREGA : ${AWS_SQS_PEDIDO_ENTREGA}
+      AWS_SQS_CANCELAR_PEDIDO : ${AWS_SQS_CANCELAR_PEDIDO}
+      AWS_SQS_PEDIDO_ENTREGA_CANCELAR : ${AWS_SQS_PEDIDO_ENTREGA_CANCELAR}
+      AWS_SQS_CONFIRMACAO_PAGAMENTO : ${AWS_SQS_CONFIRMACAO_PAGAMENTO}
+      AWS_SQS_PEDIDO_FINALIZADO : ${AWS_SQS_PEDIDO_FINALIZADO}
       MONGO_PASS: service-pedido
       MONGO_PORT: 27017
       MONGO_COLLECTION: admin
@@ -22,6 +31,8 @@ services:
       MARIADB_PORT: ${MARIADB_PORT}
     depends_on:
       - maria-db-pedido
+    networks:
+        - microservice-fiap
 
   maria-db-pedido:
     image: mariadb:latest
@@ -35,7 +46,24 @@ services:
       MARIADB_ROOT_PASSWORD: ${MARIADB_PASS}
     ports:
       - 3309:3306
+    networks:
+      - microservice-fiap
+
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4566:4566"  # Porta para acesso ao SQS
+    environment:
+      - SERVICES=sqs,iam
+      - DEFAULT_REGION=us-east-1
+    networks:
+      - microservice-fiap
+
 
 volumes:
-  # mongo-data:
   mariadb-data:
+
+networks:
+  microservice-fiap:
+    external: true

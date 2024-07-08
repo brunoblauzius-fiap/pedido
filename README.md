@@ -1,7 +1,25 @@
-### 5º Módulo
+### ***5º Módulo***
+
+
+## Arquitetura
+![image](diagrama_componentes_aws.svg)
+
+## Justificativa do Padrão SAGA.
+Por se tratar de um exemplo tecnicamente simples optamos por uitlizar o padrão "COREOGRAFADO" ja que o problema não exigia um contexto sequencial para orquestração, logo decidimos pelo padrão definido. 
+
+Na imagem acima retratamos como ficou a coreografia entre os módulos e como ficou os push/subscribe de cada um.
+
+## Mensageria
+Usamos o SQS AWS como ferramenta para comunicação entre as aplicações, motivo foi pelo baixo custo e por se adequar ao que era proposto.
 
 ## Relatório RPID LGPD:
 - [RPID LGPD](https://github.com/brunoblauzius-fiap/pedido/blob/main/LGPD/RIPD-Cafeteria.pdf)
+
+Rota para solicitação de exclusão de dados da plataforma:
+
+>Adicionado um metodo POST  - /cliente/desabilitar.
+
+[Rota adicionada](https://github.com/brunoblauzius-fiap/pedido/blob/e253ee75b1b2c773edbd59f6a2708d764e254d09/application/api/routes/clienteDesabilitarRoutes.ts)
 
 ## OWASP
 
@@ -15,9 +33,10 @@ Report gerado pelo Zap Scanner:
 - [OWASP Report Download](https://github.com/brunoblauzius-fiap/pedido/tree/OWASP/OWASP)
 
 
+___________________
 
 
-### 4º Módulo
+### ***4º Módulo***
 
 Geral: 
 https://www.loom.com/share/aba3643074444bf7b4b0147726e2eb0c?sid=a9b550d7-6806-44ae-9117-92a4fae718f2
@@ -140,12 +159,13 @@ Deve ser executado esse script no banco de dados, antes de iniciar a criação d
             VALUES
             (1, 'Lanche',NOW(), NOW()),
             (2, 'Acompanhamento',NOW(), NOW()),
-            (3, 'Bebidas',NOW(), NOW());
+            (3, 'Bebidas',NOW(), NOW()),
+            (4, 'Porções',NOW(), NOW());
 
 
     -- insert de produtos
     TRUNCATE TABLE produto;
-    insert into `projeto-pedidos`.produto (id, category_id, title, description, value, created, modified)
+    insert into produto (id, category_id, title, description, value, created, modified)
     values
     (1, 1, 'X-Salada', 'X-salada tradicional', 15.00, now(), now()),
     (2, 1, 'X-Salada com Bacon', 'X-salada tradicional com Bacon', 20.00, now(), now()),
@@ -158,15 +178,15 @@ Deve ser executado esse script no banco de dados, antes de iniciar a criação d
 
 
     -- criando cliente
-    insert into `projeto-pedidos`.cliente(id, name, email, cpf_cnpj, created, modified)
+    insert into cliente(id, name, email, cpf_cnpj, created, modified)
     values (1, 'Heitor Bernardo Victor Nogueira', 'heitoBVN@gmail.com', '31759487740', now(), now());
 
     -- inserindo pedido
-    insert into `projeto-pedidos`.pedidos(id, customer_id, status, total_value, created, modified)
+    insert into pedidos(id, customer_id, status, total_value, created, modified)
     values (1, 1, 1, '42.00', now(), now());
 
     -- insert itens do pedido
-    insert into `projeto-pedidos`.pedido_produtos(id, order_id, product_id, created, modified)
+    insert into pedido_produtos(id, order_id, product_id, created, modified)
     values
     (1, 1, 3, now(), now()),
     (2, 1, 2, now(), now()),
