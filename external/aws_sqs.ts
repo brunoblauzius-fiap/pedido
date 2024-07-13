@@ -8,14 +8,18 @@ class AWSSQS
     queueUrl = process.env.AWS_SQS_URL;
 
     constructor() {
-        let configs = {region: "us-east-1",};
+        let configs = {
+            region: "us-east-1",
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID, 
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+            }
+        };
+        
         if (process.env.DEBUG=='true') {
             configs['endpoint'] = "http://localstack:4566";
-            configs['credentials'] =  {
-                accessKeyId: process.env.AWS_ACCESS_KEY_ID, // A chave de acesso não importa para o LocalStack
-                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // A chave secreta não importa para o LocalStack
-            }
         } 
+        
         this.sqsClient = new SQSClient(configs);
     }
 
