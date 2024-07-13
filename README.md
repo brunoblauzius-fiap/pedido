@@ -16,6 +16,11 @@ Apresentação e Funcionamento da aplicação
 
 https://www.loom.com/share/6e5bee3dd7694ba8a337e2eb842f44fd?sid=ffd92b85-68a3-49e1-9cbf-77cfe9e8c6fa
 
+Visualizando dados no Kubernets
+
+https://www.loom.com/share/b18ccc2f743742cca6d82b1decfeb727?sid=b07f7955-823c-4034-8302-ad8dd303a9df
+
+
 ## Relatório RPID LGPD:
 - [RPID LGPD](https://github.com/brunoblauzius-fiap/pedido/blob/main/LGPD/RIPD-Cafeteria.pdf)
 
