@@ -1,6 +1,5 @@
 ### ***5º Módulo***
 
-
 ## Arquitetura
 ![image](diagrama_componentes_aws.svg)
 
@@ -11,6 +10,11 @@ Na imagem acima retratamos como ficou a coreografia entre os módulos e como fic
 
 ## Mensageria
 Usamos o SQS AWS como ferramenta para comunicação entre as aplicações, motivo foi pelo baixo custo e por se adequar ao que era proposto.
+
+## Videos
+Apresentação e Funcionamento da aplicação
+
+https://www.loom.com/share/6e5bee3dd7694ba8a337e2eb842f44fd?sid=ffd92b85-68a3-49e1-9cbf-77cfe9e8c6fa
 
 ## Relatório RPID LGPD:
 - [RPID LGPD](https://github.com/brunoblauzius-fiap/pedido/blob/main/LGPD/RIPD-Cafeteria.pdf)
