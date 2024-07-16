@@ -2,6 +2,9 @@
 Repositórios:
 - [Entrega](https://github.com/brunoblauzius-fiap/entrega)
 - [Pagamento](https://github.com/brunoblauzius-fiap/pagamento)
+- [kubernetes-manifest](https://github.com/brunoblauzius-fiap/kubernetes-manifest)
+- [tech-infra-db](https://github.com/brunoblauzius-fiap/tech-infra-db)
+- [tech-infra](https://github.com/brunoblauzius-fiap/tech-infra)
 
 ## Arquitetura
 ![image](diagrama_componentes_aws.svg)
