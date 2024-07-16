@@ -1,4 +1,7 @@
 ### ***5º Módulo***
+Repositórios:
+- [Entrega](https://github.com/brunoblauzius-fiap/entrega)
+- [Pagamento](https://github.com/brunoblauzius-fiap/pagamento)
 
 ## Arquitetura
 ![image](diagrama_componentes_aws.svg)
@@ -221,6 +224,80 @@ git clone https://github.com/brunoblauzius-fiap/pedido.git
 ```bash
 docker-compose up -d --build
 ```
+4. Abra o container localstack  e va para aba EXEC
+   `Digite os comandos abaixo antes de testar a api`
+
+```bash
+##CRIANDO UM USUARIO
+awslocal iam create-user --user-name test
+awslocal iam create-access-key --user-name test
+
+
+##CRIANDO UMA FILA FIFO pedido finalizado
+awslocal sqs create-queue --queue-name pedidos-finalizado.fifo --attributes FifoQueue=true
+awslocal sqs create-queue --queue-name pedidos-dlq 
+
+awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedidos-finalizado.fifo
+
+## LINKANDO as Filas
+awslocal sqs set-queue-attributes \
+--queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedidos-finalizado.fifo \
+--attributes '{
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
+}'
+##CRIANDO UMA FILA FIFO pedido entregar
+awslocal sqs create-queue --queue-name pedido-entrega.fifo --attributes FifoQueue=true
+
+awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedido-entrega.fifo
+
+## LINKANDO as Filas
+awslocal sqs set-queue-attributes \
+--queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedido-entrega.fifo \
+--attributes '{
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
+}'
+
+##CRIANDO UMA FILA FIFO pedido entregar
+awslocal sqs create-queue --queue-name pedido-entrega.fifo --attributes FifoQueue=true
+
+awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedido-entrega.fifo
+
+## LINKANDO as Filas
+awslocal sqs set-queue-attributes \
+--queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedido-entrega.fifo \
+--attributes '{
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
+}'
+
+##CRIANDO UMA FILA FIFO confirmação de pagamentos
+awslocal sqs create-queue --queue-name confirmacao-pagamento.fifo --attributes FifoQueue=true
+
+## LINKANDO as Filas
+awslocal sqs set-queue-attributes \
+--queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/confirmacao-pagamento.fifo \
+--attributes '{
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
+}'
+
+##CRIANDO UMA FILA FIFO pedidos pagamentos
+awslocal sqs create-queue --queue-name pedidos-pagamentos.fifo --attributes FifoQueue=true
+
+awslocal sqs receive-message --queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedidos-pagamentos.fifo
+
+## LINKANDO as Filas
+awslocal sqs set-queue-attributes \
+--queue-url http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/pedidos-pagamentos.fifo \
+--attributes '{
+    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:pedidos-dlq\",\"maxReceiveCount\":\"2\"}"
+}'
+
+```
+
+5. Import o arquivo swagger.json no Postman e teste as API
+
+
+** Lembrando que deve subir os container do Microserviço Entrega e Pagamento também.
+   
 
 ## Running tests
 
